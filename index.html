@@ -1,1 +1,42 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>English GK — SSC Practice</title><meta http-equiv="refresh" content="0; url=./SSC_2025_ENGLISH_CHAPTERWISE%20(3).html"></head><body><p>Opening English GK… <a href="./SSC_2025_ENGLISH_CHAPTERWISE%20(3).html">Continue</a></p></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>English GK — SSC Practice</title>
+  <style>
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b18}
+    #app{display:block;width:100%;height:100%;border:0;background:#080b18}
+    #fallback{position:fixed;inset:auto 12px 12px 12px;z-index:5;text-align:center;font:14px system-ui;color:#fff;opacity:.8;pointer-events:none}
+    #fallback a{color:#9ca7ff;pointer-events:auto}
+  </style>
+</head>
+<body>
+  <iframe id="app" title="English GK SSC Practice" src="./SSC_2025_ENGLISH_CHAPTERWISE%20(3).html"></iframe>
+  <div id="fallback">If the app does not load, <a href="./SSC_2025_ENGLISH_CHAPTERWISE%20(3).html">open it directly</a>.</div>
+  <script>
+    const frame=document.getElementById('app');
+    frame.addEventListener('load',()=>{
+      const doc=frame.contentDocument;
+      if(!doc)return;
+      const scripts=[
+        './ai-cors-fix.js?v=20260917-1900',
+        './english-gk-pro-enhancements.js?v=20260917-1900'
+      ];
+      let i=0;
+      const next=()=>{
+        if(i>=scripts.length)return;
+        const src=scripts[i++];
+        const name=src.split('?')[0].split('/').pop();
+        if(doc.querySelector('script[src*="'+name+'"]')){next();return;}
+        const s=doc.createElement('script');
+        s.src=src;
+        s.onload=next;
+        s.onerror=next;
+        doc.body.appendChild(s);
+      };
+      next();
+    });
+  </script>
+</body>
+</html>
