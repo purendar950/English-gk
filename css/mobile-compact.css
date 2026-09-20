@@ -1,0 +1,20 @@
+/* APK/mobile compact layout
+   Keeps the desktop layout unchanged and reduces oversized controls/text on phones/WebView. */
+html,body{ -webkit-text-size-adjust:100%!important; text-size-adjust:100%!important; }
+@media(max-width:650px){
+  .questionNavBar{top:64px!important;margin:6px -2px 10px!important;padding:6px!important;gap:5px!important;height:52px!important;}
+  .questionNavBar .questionNavigator{gap:8px!important;padding:2px 2px 5px!important;}
+  .questionNavBar .navQ{flex:0 0 42px!important;width:42px!important;height:42px!important;font-size:18px!important;font-weight:800!important;outline-width:0!important;box-shadow:0 3px 0 rgba(0,0,0,.24)!important;}
+  .questionNavBar .navQ.current{outline:3px solid #29c8ff!important;outline-offset:1px!important;box-shadow:0 3px 0 rgba(0,0,0,.24),0 0 12px #29c8ff55!important;}
+  .questionFilterBtn{height:42px!important;padding:0 9px!important;font-size:12px!important;gap:4px!important;}
+  .questionFilterBtn .filterIcon{width:18px!important;height:18px!important;}
+  .questionCard{padding:15px!important;border-radius:17px!important;}
+  .questionCard h2,#question{font-size:18px!important;line-height:1.48!important;font-weight:700!important;letter-spacing:0!important;-webkit-text-size-adjust:none!important;text-size-adjust:none!important;}
+  .questionCard .option{font-size:14px!important;line-height:1.42!important;padding:11px 12px!important;}
+  .questionCard #options{gap:8px!important;margin-top:6px!important;}
+  .topicLabel{font-size:10px!important;}
+  .bookmarkBtn{font-size:11px!important;padding:8px 10px!important;}
+  .testHead{font-size:14px!important;margin-bottom:8px!important;}
+  .testHead #counter{font-size:16px!important;}
+  .testHead #timer{font-size:14px!important;}
+}
