@@ -24,7 +24,11 @@ async function load(){
   const all=[];
   await Promise.all(TOPICS.map(async([id,name])=>{
     try{
-      const r=await fetch("./data/"+id+".json?v="+Date.now(),{cache:"no-store"});
+      let r=await fetch("./data/"+id+".json?v="+Date.now(),{cache:"no-store"});
+      if(!r.ok){
+        const raw="https://raw.githubusercontent.com/purendar950/English-gk/main/data/"+id+".json?v="+Date.now();
+        r=await fetch(raw,{cache:"no-store"});
+      }
       if(!r.ok) throw new Error("HTTP "+r.status);
       const d=await r.json();
       const list=Array.isArray(d)?d:(Array.isArray(d.questions)?d.questions:[]);
