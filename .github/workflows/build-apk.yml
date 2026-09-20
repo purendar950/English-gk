@@ -78,3 +78,5 @@ jobs:
           name: Android-build-outputs
           path: app/build/outputs/**
           retention-days: 30
+
+# Rebuild APK whenever mobile UI assets change.
