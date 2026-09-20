@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "question": "Improve: 'He is good in mathematics.'",
+    "options": [
+      "good at mathematics",
+      "good on mathematics",
+      "good with mathematics",
+      "No improvement"
+    ],
+    "answer": 0,
+    "explanation": "The standard expression is 'good at mathematics'."
+  },
+  {
+    "question": "Improve: 'She prefers tea than coffee.'",
+    "options": [
+      "prefers tea to coffee",
+      "prefers tea over than coffee",
+      "prefers tea from coffee",
+      "No improvement"
+    ],
+    "answer": 0,
+    "explanation": "Prefer is normally followed by 'to' when comparing two things."
+  },
+  {
+    "question": "Improve: 'I look forward to meet you.'",
+    "options": [
+      "to meeting you",
+      "to met you",
+      "to meet with you",
+      "No improvement"
+    ],
+    "answer": 0,
+    "explanation": "In 'look forward to', 'to' is a preposition, so use the gerund 'meeting'."
+  },
+  {
+    "question": "Improve: 'He has been living here since five years.'",
+    "options": [
+      "for five years",
+      "from five years",
+      "by five years",
+      "No improvement"
+    ],
+    "answer": 0,
+    "explanation": "Use 'for' with a duration; 'since' is used with a starting point."
+  }
+]
