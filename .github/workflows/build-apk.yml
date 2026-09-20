@@ -9,6 +9,10 @@ on:
       - 'js/**'
       - 'data/**'
       - 'android/**'
+      - 'gradle.properties'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'app/**'
       - '.github/workflows/build-apk.yml'
 
 permissions:
