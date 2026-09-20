@@ -1,0 +1,126 @@
+{
+  "source": "uploaded SSC English compilation",
+  "total": 5659,
+  "topics": [
+    {
+      "id": "reading-comprehension",
+      "name": "Reading Comprehension",
+      "description": "764 questions from the uploaded SSC English compilation",
+      "count": 764
+    },
+    {
+      "id": "spelling-check",
+      "name": "Spelling Check",
+      "description": "523 questions from the uploaded SSC English compilation",
+      "count": 523
+    },
+    {
+      "id": "active-passive-voice",
+      "name": "Active Passive Voice",
+      "description": "520 questions from the uploaded SSC English compilation",
+      "count": 520
+    },
+    {
+      "id": "direct-indirect-narration",
+      "name": "Direct Indirect (Narration)",
+      "description": "419 questions from the uploaded SSC English compilation",
+      "count": 419
+    },
+    {
+      "id": "para-jumbles",
+      "name": "Para Jumbles",
+      "description": "398 questions from the uploaded SSC English compilation",
+      "count": 398
+    },
+    {
+      "id": "one-word-substitution",
+      "name": "One Word Substitution",
+      "description": "396 questions from the uploaded SSC English compilation",
+      "count": 396
+    },
+    {
+      "id": "fill-in-the-blanks",
+      "name": "Fill in the Blanks",
+      "description": "353 questions from the uploaded SSC English compilation",
+      "count": 353
+    },
+    {
+      "id": "antonym",
+      "name": "Antonym",
+      "description": "349 questions from the uploaded SSC English compilation",
+      "count": 349
+    },
+    {
+      "id": "sentence-improvement",
+      "name": "Sentence Improvement",
+      "description": "343 questions from the uploaded SSC English compilation",
+      "count": 343
+    },
+    {
+      "id": "spotting-errors",
+      "name": "Spotting Errors",
+      "description": "341 questions from the uploaded SSC English compilation",
+      "count": 341
+    },
+    {
+      "id": "idioms-and-phrases",
+      "name": "Idioms and Phrases",
+      "description": "322 questions from the uploaded SSC English compilation",
+      "count": 322
+    },
+    {
+      "id": "synonym",
+      "name": "Synonym",
+      "description": "294 questions from the uploaded SSC English compilation",
+      "count": 294
+    },
+    {
+      "id": "cloze-test",
+      "name": "Cloze Test",
+      "description": "238 questions from the uploaded SSC English compilation",
+      "count": 238
+    },
+    {
+      "id": "homophones-and-homonyms",
+      "name": "Homophones and Homonyms",
+      "description": "214 questions from the uploaded SSC English compilation",
+      "count": 214
+    },
+    {
+      "id": "sentence-rearrangement",
+      "name": "Sentence Rearrangement",
+      "description": "80 questions from the uploaded SSC English compilation",
+      "count": 80
+    },
+    {
+      "id": "phrasal-verbs",
+      "name": "Phrasal Verbs",
+      "description": "43 questions from the uploaded SSC English compilation",
+      "count": 43
+    },
+    {
+      "id": "sentence-completion",
+      "name": "Sentence Completion",
+      "description": "25 questions from the uploaded SSC English compilation",
+      "count": 25
+    },
+    {
+      "id": "confusing-words",
+      "name": "Confusing Words",
+      "description": "16 questions from the uploaded SSC English compilation",
+      "count": 16
+    },
+    {
+      "id": "word-usage",
+      "name": "Word Usage",
+      "description": "12 questions from the uploaded SSC English compilation",
+      "count": 12
+    },
+    {
+      "id": "miscellaneous",
+      "name": "Miscellaneous",
+      "description": "9 questions from the uploaded SSC English compilation",
+      "count": 9
+    }
+  ]
+}
