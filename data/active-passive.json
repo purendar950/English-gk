@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "question": "Choose the passive form: 'The teacher praised the student.'",
+    "options": [
+      "The student was praised by the teacher.",
+      "The student is praised by the teacher.",
+      "The teacher was praised by the student.",
+      "The student praised the teacher."
+    ],
+    "answer": 0,
+    "explanation": "Simple past active changes to was/were + past participle."
+  },
+  {
+    "question": "Choose the passive form: 'They are building a bridge.'",
+    "options": [
+      "A bridge is being built by them.",
+      "A bridge was built by them.",
+      "A bridge is built by them.",
+      "A bridge has been built by them."
+    ],
+    "answer": 0,
+    "explanation": "Present continuous passive uses is/are being + past participle."
+  },
+  {
+    "question": "Choose the active form: 'The work was completed by Ravi.'",
+    "options": [
+      "Ravi completed the work.",
+      "Ravi completes the work.",
+      "Ravi had completed the work.",
+      "Ravi was completing the work."
+    ],
+    "answer": 0,
+    "explanation": "'Was completed' is simple past passive, so the active form is simple past."
+  },
+  {
+    "question": "Choose the passive form: 'Open the door.'",
+    "options": [
+      "Let the door be opened.",
+      "Let the door opened.",
+      "The door is opening.",
+      "The door was opened."
+    ],
+    "answer": 0,
+    "explanation": "An imperative in passive commonly uses 'Let + object + be + past participle'."
+  }
+]
