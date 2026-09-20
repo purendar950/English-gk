@@ -46,3 +46,14 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}.questionCard,.question
   .aiQuick{grid-template-columns:1fr!important}
   .aiSelectGroup{width:100%!important}
 }
+
+/* v27: unified single-line question controls */
+.testControlBar{display:flex!important;flex-wrap:nowrap!important;align-items:center!important;gap:8px!important;width:100%!important;margin:14px 0 0!important;padding:9px!important;border:1px solid #294d74!important;border-radius:14px!important;background:#08182c!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:thin!important}
+.testControlBar>button{flex:0 0 auto!important;height:38px!important;white-space:nowrap!important;margin:0!important}
+.testControlBar .originalBtn,.testControlBar .aiBtn{min-width:125px!important}
+.testControlBar .aiSelectGroup{flex:0 0 auto!important;display:flex!important;align-items:center!important;gap:5px!important;height:38px!important}
+.testControlBar .aiSelectGroup>span{flex:0 0 auto!important;font-size:9px!important;font-weight:900!important;color:#8fa8c7!important;text-transform:uppercase!important}
+.testControlBar .aiSelectGroup select{flex:0 0 155px!important;width:155px!important;height:38px!important;min-width:155px!important;max-width:155px!important;padding:0 8px!important;border:1px solid #31516f!important;border-radius:9px!important;background:#13263e!important;color:#e6f1ff!important;font:800 11px/1 Inter,system-ui,sans-serif!important;outline:none!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.testControlBar .aiSelectGroup select:focus{border-color:#28c8ff!important;box-shadow:0 0 0 2px #28c8ff22!important}
+.testControlBar #skip{min-width:72px!important}.testControlBar #next{min-width:86px!important}
+@media(max-width:700px){.testControlBar{gap:6px!important;padding:7px!important;margin-top:10px!important}.testControlBar .originalBtn,.testControlBar .aiBtn{min-width:108px!important;padding-left:10px!important;padding-right:10px!important}.testControlBar .aiSelectGroup>span{display:none!important}.testControlBar .aiSelectGroup select{flex-basis:140px!important;width:140px!important;min-width:140px!important;max-width:140px!important}}
