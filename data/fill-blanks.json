@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "question": "The train arrived ___ time.",
+    "options": [
+      "in",
+      "on",
+      "at",
+      "by"
+    ],
+    "answer": 1,
+    "explanation": "The fixed expression is 'on time'."
+  },
+  {
+    "question": "She is fond ___ music.",
+    "options": [
+      "of",
+      "with",
+      "for",
+      "to"
+    ],
+    "answer": 0,
+    "explanation": "The correct collocation is 'fond of'."
+  },
+  {
+    "question": "If I ___ rich, I would help the poor.",
+    "options": [
+      "am",
+      "was",
+      "were",
+      "will be"
+    ],
+    "answer": 2,
+    "explanation": "In a hypothetical condition, 'were' is used with all persons in formal English."
+  },
+  {
+    "question": "He succeeded ___ his hard work.",
+    "options": [
+      "because",
+      "because of",
+      "although",
+      "despite of"
+    ],
+    "answer": 1,
+    "explanation": "'Because of' is followed by a noun phrase such as 'his hard work'."
+  }
+]
