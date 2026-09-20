@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "question": "Change into indirect speech: He said, 'I am tired.'",
+    "options": [
+      "He said that he was tired.",
+      "He said that I am tired.",
+      "He says that he was tired.",
+      "He said he is tired."
+    ],
+    "answer": 0,
+    "explanation": "With a past reporting verb, present 'am' generally backshifts to 'was'."
+  },
+  {
+    "question": "Change into indirect speech: She said to me, 'Do you know him?'",
+    "options": [
+      "She asked me if I knew him.",
+      "She told me if I know him.",
+      "She asked me that I knew him.",
+      "She said to me whether do I know him."
+    ],
+    "answer": 0,
+    "explanation": "A yes/no question becomes asked + if/whether + statement order."
+  },
+  {
+    "question": "Change into indirect speech: The teacher said, 'Work hard.'",
+    "options": [
+      "The teacher advised the students to work hard.",
+      "The teacher said the students work hard.",
+      "The teacher asked that work hard.",
+      "The teacher told work hard."
+    ],
+    "answer": 0,
+    "explanation": "An imperative expressing advice can be reported with 'advised + object + to-infinitive'."
+  },
+  {
+    "question": "Change into indirect speech: Rahul said, 'I have finished my work.'",
+    "options": [
+      "Rahul said that he had finished his work.",
+      "Rahul said that he has finished my work.",
+      "Rahul says that he had finished his work.",
+      "Rahul said that I had finished his work."
+    ],
+    "answer": 0,
+    "explanation": "Present perfect generally backshifts to past perfect after a past reporting verb."
+  }
+]
