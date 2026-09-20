@@ -40,16 +40,21 @@ function renderAI(md){const lines=String(md??"").replace(/\r/g,"").split("\n"),b
 function renderAIQuickSelectors(){
   const c=aiConfig(),ps=$("#aiQuickProvider"),ms=$("#aiQuickModel");
   if(!ps||!ms)return;
-  const providerIds=Object.keys(AI_PROVIDERS).filter(id=>id!=="custom");
-  ps.innerHTML=providerIds.map(id=>"<option value=\""+esc(id)+"\">"+esc(AI_PROVIDERS[id].name)+"</option>").join("");
+  const providerIds=[
+    "pollinations","openai","gemini","groq","openrouter",
+    "deepseek","mistral","together"
+  ];
+  ps.innerHTML=providerIds.map(id=>{
+    const p=AI_PROVIDERS[id];
+    return "<option value=\""+esc(id)+"\">"+esc(p.name)+"</option>";
+  }).join("");
   const provider=providerIds.includes(c.provider)?c.provider:"pollinations";
   ps.value=provider;
-  const p=AI_PROVIDERS[provider]||AI_PROVIDERS.pollinations;
+  const p=AI_PROVIDERS[provider];
   const models=Array.isArray(p.models)?p.models:[];
-  ms.innerHTML=models.length
-    ? models.map(m=>"<option value=\""+esc(m)+"\">"+esc(m)+"</option>").join("")
-    : "<option value=\"\">No preset models</option>";
-  ms.value=models.includes(c.model)?c.model:(models[0]||"");
+  ms.innerHTML=models.map(m=>"<option value=\""+esc(m)+"\">"+esc(m)+"</option>").join("");
+  if(models.includes(c.model))ms.value=c.model;
+  else ms.value=models[0]||"";
 }
 function saveQuickAI(){
   const ps=$("#aiQuickProvider"),ms=$("#aiQuickModel");
