@@ -13,3 +13,7 @@
 /* Improve text contrast on topic cards and buttons */
 .topic{color:var(--text);font-family:inherit;font-size:inherit}.topic b{color:var(--text)}.topic small{color:#b9c8dc}.topic:focus-visible{outline:2px solid var(--accent2);outline-offset:3px}.ghost,.iconBtn,.option,.originalBtn{font-family:inherit}.ghost,.iconBtn{color:var(--text)}
 body.light .topic small{color:#53647a}
+
+/* Force high-contrast topic text */
+.topic,.topic b{color:#f5f7ff!important}.topic small{color:#c4d1e3!important}.topic{background:#101c2f!important}.topic:hover{background:#152640!important}.topic b{font-weight:900!important;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+body.light .topic,.body.light .topic b{color:#162033!important}body.light .topic small{color:#53647a!important}
