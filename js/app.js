@@ -63,9 +63,8 @@ function renderQ(){
   $("counter").textContent=`Question ${state.index+1} / ${state.pool.length}`;
   $("qTopic").textContent=q.topicName;
   $("question").textContent=q.question||q.q||"Question";
-  const passage=q.passage?'<div class="passage">'+esc(q.passage)+'</div>':"";
-  $("question").insertAdjacentHTML("beforebegin",passage);
-  document.querySelectorAll(".passage").forEach((el,i)=>{if(i<document.querySelectorAll(".passage").length-1)el.remove()});
+  $("passage").textContent=q.passage||"";
+  $("passage").hidden=!q.passage;
   $("options").innerHTML=(q.options||q.opts||[]).map((o,i)=>`<button class="option" data-i="${i}">${String.fromCharCode(65+i)}. ${esc(o)}</button>`).join("");
   $("feedback").textContent="";
   $("progressBar").style.width=((state.index)/state.pool.length*100)+"%";
