@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "question": "Choose the correctly spelt word.",
+    "options": [
+      "Accomodation",
+      "Accommodation",
+      "Acommodation",
+      "Accommadation"
+    ],
+    "answer": 1,
+    "explanation": "The correct spelling is Accommodation."
+  },
+  {
+    "question": "Choose the correctly spelt word.",
+    "options": [
+      "Privilege",
+      "Privelege",
+      "Priviledge",
+      "Privillage"
+    ],
+    "answer": 0,
+    "explanation": "The correct spelling is Privilege."
+  },
+  {
+    "question": "Choose the correctly spelt word.",
+    "options": [
+      "Separate",
+      "Seperate",
+      "Separete",
+      "Seprate"
+    ],
+    "answer": 0,
+    "explanation": "The correct spelling is Separate."
+  },
+  {
+    "question": "Choose the correctly spelt word.",
+    "options": [
+      "Questionnaire",
+      "Questionaire",
+      "Questionnair",
+      "Quesstionnaire"
+    ],
+    "answer": 0,
+    "explanation": "The correct spelling is Questionnaire."
+  }
+]
