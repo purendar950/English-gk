@@ -1,25 +1,4 @@
-const TOPICS=[
-["reading-comprehension","Reading Comprehension",764,"reading-comprehension"],
-["spelling-check","Spelling Check",523,"spelling-check"],
-["active-passive-voice","Active Passive Voice",520,"active-passive-voice"],
-["direct-indirect-narration","Direct Indirect (Narration)",419,"direct-indirect-narration"],
-["para-jumbles","Para Jumbles",398,"para-jumbles"],
-["one-word-substitution","One Word Substitution",396,"one-word-substitution"],
-["fill-in-the-blanks","Fill in the Blanks",353,"fill-in-the-blanks"],
-["antonym","Antonym",349,"antonym"],
-["sentence-improvement","Sentence Improvement",343,"sentence-improvement"],
-["spotting-errors","Spotting Errors",341,"spotting-errors"],
-["idioms-and-phrases","Idioms and Phrases",322,"idioms-and-phrases"],
-["synonym","Synonym",294,"synonym"],
-["cloze-test","Cloze Test",238,"cloze-test"],
-["homophones-and-homonyms","Homophones and Homonyms",214,"homophones-and-homonyms"],
-["sentence-rearrangement","Sentence Rearrangement",80,"sentence-rearrangement"],
-["phrasal-verbs","Phrasal Verbs",43,"phrasal-verbs"],
-["sentence-completion","Sentence Completion",25,"sentence-completion"],
-["confusing-words","Confusing Words",16,"confusing-words"],
-["word-usage","Word Usage",12,"word-usage"],
-["miscellaneous","Miscellaneous",9,"miscellaneous"]
-];
+const TOPICS=[["reading-comprehension","Reading Comprehension","Passage-based comprehension questions",764],["spelling-check","Spelling Check","Correct spelling questions",523],["active-passive-voice","Active Passive Voice","Voice transformation",520],["direct-indirect-narration","Direct Indirect (Narration)","Narration transformation",419],["para-jumbles","Para Jumbles","Paragraph ordering",398],["one-word-substitution","One Word Substitution","Replace phrases with one word",396],["fill-in-the-blanks","Fill in the Blanks","Context-based grammar and vocabulary",353],["antonym","Antonym","Opposite meaning words",349],["sentence-improvement","Sentence Improvement","Improve the sentence",343],["spotting-errors","Spotting Errors","Find grammar errors",341],["idioms-and-phrases","Idioms and Phrases","Meaning and usage",322],["synonym","Synonym","Similar meaning words",294],["cloze-test","Cloze Test","Passage-based cloze questions",238],["homophones-and-homonyms","Homophones and Homonyms","Confusing sound-alike words",214],["sentence-rearrangement","Sentence Rearrangement","Rearrange sentences",80],["phrasal-verbs","Phrasal Verbs","Verb + particle expressions",43],["sentence-completion","Sentence Completion","Complete the sentence",25],["confusing-words","Confusing Words","Commonly confused words",16],["word-usage","Word Usage","Correct word usage",12],["miscellaneous","Miscellaneous","Mixed English questions",9]];
 const state={questions:[],pool:[],index:0,answers:[],started:0,topic:"all",timer:null};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -65,7 +44,7 @@ function startTimer(){const tick=()=>$("#timer").textContent=new Date(Date.now()
 function renderQ(){
  const q=state.pool[state.index];$("#counter").textContent=`Question ${state.index+1} / ${state.pool.length}`;$("#qTopic").textContent=q.topicName;
  $("#question").innerHTML=q.question||"Question";$("#passage").innerHTML=q.passage||"";$("#passage").hidden=!q.passage;
- $("#options").innerHTML=q.options.map((o,i)=>`<button class="option" data-i="${i}">${String.fromCharCode(65+i)}. ${esc(o)}</button>`).join("");
+ $("#options").innerHTML=q.options.map((o,i)=>`<button class="option" data-i="${i}">${String.fromCharCode(65+i)}. <span>${o}</span></button>`).join("");
  $("#feedback").textContent="";$("#progressBar").style.width=(state.index/state.pool.length*100)+"%";
  document.querySelectorAll(".option").forEach(b=>b.onclick=()=>answer(+b.dataset.i));$("#next").textContent=state.index===state.pool.length-1?"Finish":"Next →";
 }
