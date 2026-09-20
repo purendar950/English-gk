@@ -38,17 +38,18 @@ async function callAI(prompt){const c=aiConfig(),base=(c.baseUrl||"https://gen.p
 function inlineAI(s){return esc(String(s??"")).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/\*(.+?)\*/g,"<em>$1</em>")}
 function renderAI(md){const lines=String(md??"").replace(/\r/g,"").split("\n"),blocks=[];let cur=null,table=[];const flush=()=>{if(cur&&cur.body.length){blocks.push(cur);cur=null}},flushTable=()=>{if(!table.length)return;blocks.push({type:"table",body:table});table=[]};for(const raw of lines){const line=raw.trim();if(!line){if(cur)cur.body.push("");continue}if(/^\|/.test(line)){flush();table.push(line);continue}if(/^#{1,3}\s+/.test(line)){flushTable();flush();const title=line.replace(/^#{1,3}\s+/,"").replace(/\*+/g,"").trim();let type="concept",icon="◆";if(/correct|answer|reason/i.test(title)){type="answer";icon="✓"}else if(/wrong|selected|mistake/i.test(title)){type="warn";icon="!"}else if(/comparison|options|compare/i.test(title)){type="compare";icon="⇄"}else if(/memory|mnemonic|trick/i.test(title)){type="memory";icon="★"}else if(/example|sentence/i.test(title)){type="example";icon="✦"}blocks.push({type,title,icon,body:[]});cur=blocks[blocks.length-1];continue}if(!cur){cur={type:"concept",title:"AI Explanation",icon:"◆",body:[]};blocks.push(cur)}cur.body.push(line)}flushTable();flush();return blocks.map(b=>{if(b.type==="table"){const rows=b.body.filter(x=>!(/^\|[-\s|:]+\|$/.test(x)));if(!rows.length)return"";const cells=x=>x.split("|").slice(1,-1).map(v=>inlineAI(v.trim()));const head=cells(rows[0]),body=rows.slice(1);return '<div class="aiBlock aiCompare"><div class="aiTableWrap"><table><thead><tr>'+head.map(x=>"<th>"+x+"</th>").join("")+"</tr></thead><tbody>"+body.map(row=>{const c=cells(row);return"<tr>"+c.map(x=>"<td>"+x+"</td>").join("")+"</tr>"}).join("")+"</tbody></table></div></div>"}const cls="aiBlock ai"+b.type.charAt(0).toUpperCase()+b.type.slice(1);let html="",list=[];const flushList=()=>{if(list.length){html+="<ul class=\"aiList\">"+list.map(x=>"<li>"+inlineAI(x.replace(/^[-*]\s+/,""))+"</li>").join("")+"</ul>";list=[]}};b.body.forEach(x=>{if(/^[-*]\s+/.test(x)){list.push(x);return}flushList();if(x.startsWith(">"))x=x.slice(1).trim();if(x)html+='<p class="aiText">'+inlineAI(x)+"</p>"});flushList();return '<section class="'+cls+'"><h3 class="aiTitle"><span class="aiIcon">'+b.icon+"</span>"+inlineAI(b.title)+"</h3>"+html+"</section>"}).join("")}
 function renderAIQuickSelectors(){
-  const c=aiConfig(), ps=$("#aiQuickProvider"), ms=$("#aiQuickModel");
+  const c=aiConfig(),ps=$("#aiQuickProvider"),ms=$("#aiQuickModel");
   if(!ps||!ms)return;
-  ps.innerHTML=Object.entries(AI_PROVIDERS).filter(([id])=>id!=="custom").map(([id,p])=>"<option value=\""+esc(id)+"\">"+esc(p.name)+"</option>").join("");
-  ps.value=c.provider||"pollinations";
-  const p=AI_PROVIDERS[ps.value]||AI_PROVIDERS.custom;
-  const models=p.models||[];
-  ms.innerHTML=models.map(m=>"<option value=\""+esc(m)+"\">"+esc(m)+"</option>").join("");
-  ms.value=(c.provider===ps.value&&models.includes(c.model))?c.model:(models[0]||"");
-  if(ms.value==="__custom__"){
-    ms.insertAdjacentHTML("afterend","");
-  }
+  const providerIds=Object.keys(AI_PROVIDERS).filter(id=>id!=="custom");
+  ps.innerHTML=providerIds.map(id=>"<option value=\""+esc(id)+"\">"+esc(AI_PROVIDERS[id].name)+"</option>").join("");
+  const provider=providerIds.includes(c.provider)?c.provider:"pollinations";
+  ps.value=provider;
+  const p=AI_PROVIDERS[provider]||AI_PROVIDERS.pollinations;
+  const models=Array.isArray(p.models)?p.models:[];
+  ms.innerHTML=models.length
+    ? models.map(m=>"<option value=\""+esc(m)+"\">"+esc(m)+"</option>").join("")
+    : "<option value=\"\">No preset models</option>";
+  ms.value=models.includes(c.model)?c.model:(models[0]||"");
 }
 function saveQuickAI(){
   const ps=$("#aiQuickProvider"),ms=$("#aiQuickModel");
@@ -68,9 +69,11 @@ function syncAIQuickFromSettings(){
 }
 async function showAISolution(){saveQuickAI();const q=state.pool[state.index],a=state.answers[state.index],user=a?strip(q.options[a.selected]):"Not answered";$("#aiSolution").hidden=false;$("#aiSolution").innerHTML='<div class="aiLoading">Generating a structured SSC solution…</div>';try{$("#aiSolution").innerHTML=renderAI(await callAI(buildPrompt(q,user)))}catch(e){$("#aiSolution").innerHTML='<section class="aiBlock aiWarn"><h3 class="aiTitle"><span class="aiIcon">!</span>AI Error</h3><p class="aiText">'+esc("AI failed. Open AI Settings to add a working key/base URL, then try again. "+e.message)+"</p></section>"}}
 $("#next").onclick=moveNext;$("#bookmarkBtn").onclick=toggleBookmark;document.querySelectorAll("#resultFilters button").forEach(x=>x.onclick=()=>{state.resultFilter=x.dataset.filter;renderResults()});const mistakePracticeBtn=$("#mistakePracticeBtn");if(mistakePracticeBtn)mistakePracticeBtn.onclick=startMistakes;$("#resultMistakes").onclick=startMistakes;$("#skip").onclick=moveNext;const swipe={x:0,y:0,active:false};function setupSwipe(){const area=$("#test");if(!area)return;area.addEventListener("touchstart",e=>{if(e.touches.length!==1)return;const t=e.touches[0];swipe.x=t.clientX;swipe.y=t.clientY;swipe.active=true},{passive:true});area.addEventListener("touchend",e=>{if(!swipe.active||!e.changedTouches.length)return;const t=e.changedTouches[0],dx=t.clientX-swipe.x,dy=t.clientY-swipe.y;swipe.active=false;if(Math.abs(dx)<60||Math.abs(dx)<=Math.abs(dy)*1.25)return;if(e.target.closest("button,input,select,textarea,a,.modal"))return;if(dx<0)moveNext();else movePrev()},{passive:true})} $("#startAll").onclick=()=>localStorage.getItem(KEY)?start("all",true):start("all",false);$("#navMistakes").onclick=startMistakes;$("#navBookmarks").onclick=()=>{state.resultFilter="bookmarked";renderResults();show("result")};$("#navResults").onclick=()=>{renderResults();show("result")};document.querySelector("[data-home]").onclick=()=>show("home");$("#resumeBtn").onclick=()=>start("all",true);$("#newTestBtn").onclick=()=>{clearProgress("all");start("all",false)};$("#backHome").onclick=()=>{saveProgress();clearInterval(state.timer);show("home")};$("#again").onclick=()=>{clearProgress("all");start("all",false)};function sanitizeOriginalHTML(raw){const tpl=document.createElement("template");tpl.innerHTML=String(raw??"");const allowed=new Set(["BR","B","STRONG","I","EM","U","P","DIV","UL","OL","LI","H1","H2","H3","H4","TABLE","THEAD","TBODY","TFOOT","TR","TH","TD"]);const clean=node=>{for(const child of [...node.childNodes]){if(child.nodeType===1){if(!allowed.has(child.tagName)){if(child.tagName==="SPAN"||child.tagName==="FONT"){while(child.firstChild)child.parentNode.insertBefore(child.firstChild,child);child.remove();continue}const text=document.createTextNode(child.textContent||"");child.replaceWith(text);continue}for(const a of [...child.attributes])child.removeAttribute(a.name);clean(child)}else if(child.nodeType===8){child.remove()}}};clean(tpl.content);return tpl.innerHTML.trim()}function showOriginalSolution(){const q=state.pool[state.index],raw=String(q.explanation??q.s??"").trim();if(raw){const html=sanitizeOriginalHTML(raw);$("#originalSolution").innerHTML=html||'<div class="originalEmpty">No readable original solution/explanation is available in this question file.</div>'}else{$("#originalSolution").innerHTML="<div class=\"originalEmpty\">No original solution/explanation is available in this question file.</div>"}$("#originalModal").hidden=false}$("#aiQuickProvider").onchange=()=>{
-  const provider=$("#aiQuickProvider").value,p=AI_PROVIDERS[provider]||AI_PROVIDERS.custom;
+  const provider=$("#aiQuickProvider").value;
+  const p=AI_PROVIDERS[provider]||AI_PROVIDERS.pollinations;
   const c=aiConfig();
-  localStorage.setItem(AIKEY,JSON.stringify({...c,provider,baseUrl:p.baseUrl,model:p.models?.[0]||"",models:p.models||[]}));
+  const models=Array.isArray(p.models)?p.models:[];
+  localStorage.setItem(AIKEY,JSON.stringify({...c,provider,baseUrl:p.baseUrl,model:models[0]||"",models}));
   renderAIQuickSelectors();
 };
 $("#aiQuickModel").onchange=()=>saveQuickAI();
