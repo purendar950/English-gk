@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "passage": "Regular exercise keeps the body (1) ___ and improves mental health.",
+    "question": "Choose the correct word for blank (1).",
+    "options": [
+      "fit",
+      "weak",
+      "idle",
+      "late"
+    ],
+    "answer": 0,
+    "explanation": "'Keeps the body fit' is the correct expression."
+  },
+  {
+    "passage": "Reading newspapers helps students (1) ___ their vocabulary and (2) ___ aware of current events.",
+    "question": "Choose the correct word for blank (1).",
+    "options": [
+      "expand",
+      "expands",
+      "expanded",
+      "expanding"
+    ],
+    "answer": 0,
+    "explanation": "After 'helps students', the base form 'expand' is used."
+  },
+  {
+    "passage": "Reading newspapers helps students expand their vocabulary and (2) ___ aware of current events.",
+    "question": "Choose the correct word for blank (2).",
+    "options": [
+      "remain",
+      "remains",
+      "remained",
+      "remaining"
+    ],
+    "answer": 0,
+    "explanation": "The coordinated verb after 'and' is the base form 'remain'."
+  },
+  {
+    "passage": "Water is essential (1) ___ life. Without it, plants, animals and humans cannot (2) ___ .",
+    "question": "Choose the correct word for blank (1).",
+    "options": [
+      "for",
+      "to",
+      "at",
+      "with"
+    ],
+    "answer": 0,
+    "explanation": "The standard phrase is 'essential for life'."
+  }
+]
