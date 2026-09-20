@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "question": "Choose the word closest in meaning to 'Abate'.",
+    "options": [
+      "Increase",
+      "Lessen",
+      "Provoke",
+      "Delay"
+    ],
+    "answer": 1,
+    "explanation": "Abate means to become less intense or to reduce."
+  },
+  {
+    "question": "'Indigent' most nearly means:",
+    "options": [
+      "Wealthy",
+      "Poor",
+      "Proud",
+      "Careless"
+    ],
+    "answer": 1,
+    "explanation": "Indigent means poor or lacking the basic necessities of life."
+  },
+  {
+    "question": "Choose the word that means 'showing great courage'.",
+    "options": [
+      "Timid",
+      "Valiant",
+      "Vague",
+      "Hostile"
+    ],
+    "answer": 1,
+    "explanation": "Valiant means possessing or showing courage."
+  },
+  {
+    "question": "'Ludicrous' means:",
+    "options": [
+      "Ridiculous",
+      "Serious",
+      "Legal",
+      "Ancient"
+    ],
+    "answer": 0,
+    "explanation": "Ludicrous means so unreasonable or absurd as to be ridiculous."
+  }
+]
