@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "question": "Choose the antonym of 'Scarce'.",
+    "options": [
+      "Rare",
+      "Limited",
+      "Abundant",
+      "Insufficient"
+    ],
+    "answer": 2,
+    "explanation": "Scarce means insufficient; abundant is its opposite."
+  },
+  {
+    "question": "Choose the antonym of 'Hostile'.",
+    "options": [
+      "Friendly",
+      "Angry",
+      "Violent",
+      "Harsh"
+    ],
+    "answer": 0,
+    "explanation": "Hostile means unfriendly; friendly is the opposite."
+  },
+  {
+    "question": "Choose the antonym of 'Expand'.",
+    "options": [
+      "Extend",
+      "Contract",
+      "Increase",
+      "Enlarge"
+    ],
+    "answer": 1,
+    "explanation": "Contract means become smaller or reduce in size."
+  },
+  {
+    "question": "Choose the antonym of 'Ancient'.",
+    "options": [
+      "Old",
+      "Historic",
+      "Modern",
+      "Primitive"
+    ],
+    "answer": 2,
+    "explanation": "Modern is the opposite of ancient."
+  }
+]
