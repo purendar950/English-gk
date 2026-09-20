@@ -1,0 +1,6 @@
+{
+  "provider": "pollinations",
+  "baseUrl": "https://gen.pollinations.ai/v1",
+  "model": "kimi",
+  "apiKey": ""
+}
