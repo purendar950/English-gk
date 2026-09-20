@@ -43,6 +43,44 @@ function restoreNativeAIConfig(){
     persistAIConfig(merged);
   }catch(e){console.warn("Native AI config restore failed",e)}
 }
+function customProviderStore(){
+  try{return JSON.parse(localStorage.getItem("english_gk_custom_providers_v1")||"{}")}catch{return{}}
+}
+function allAIProviders(){
+  const custom=customProviderStore();
+  const merged={...AI_PROVIDERS};
+  Object.keys(custom).forEach(id=>{
+    if(custom[id]&&typeof custom[id]==="object")merged[id]={name:custom[id].name||id,baseUrl:custom[id].baseUrl||"",models:normalizeModelList(custom[id].models||[])};
+  });
+  return merged;
+}
+function saveCustomProvider(id,config){
+  const all=customProviderStore();
+  all[id]={...config,id,name:String(config.name||id),baseUrl:String(config.baseUrl||""),models:normalizeModelList(config.models||[])};
+  localStorage.setItem("english_gk_custom_providers_v1",JSON.stringify(all));
+}
+function deleteCustomProvider(id){
+  const all=customProviderStore();
+  delete all[id];
+  localStorage.setItem("english_gk_custom_providers_v1",JSON.stringify(all));
+  const current=aiConfig();
+  if(current.provider===id)persistAIConfig({provider:"pollinations",baseUrl:AI_PROVIDERS.pollinations.baseUrl,apiKey:"",model:"kimi"});
+}
+function isCustomProvider(id){return id&&id.startsWith("custom_")}
+function addCustomProvider(){
+  const name=prompt("Custom provider name:");
+  if(!name||!name.trim())return;
+  const id="custom_"+Date.now().toString(36);
+  saveCustomProvider(id,{name:name.trim(),baseUrl:"",models:[]});
+  AI_PROVIDERS[id]={name:name.trim(),baseUrl:"",models:[]};
+  const ps=$("#aiProvider");if(ps){renderAIProviderOptions(id);ps.value=id;activateAIProvider(id);setAIFields()}
+}
+function renderAIProviderOptions(selected){
+  const ps=$("#aiProvider");if(!ps)return;
+  const providers=allAIProviders();
+  ps.innerHTML=Object.keys(providers).map(id=>"<option value=\""+esc(id)+"\">"+esc(providers[id].name)+"</option>").join("");
+  if(selected&&providers[selected])ps.value=selected;
+}
 function aiProviderStore(){
   try{return JSON.parse(localStorage.getItem("english_gk_ai_providers_v1")||"{}")}catch{return{}}
 }
@@ -74,8 +112,9 @@ function aiModelCache(c){return c.modelCache&&typeof c.modelCache==="object"?c.m
 }
 function setAIFields(){
   const c=aiConfig();
+  renderAIProviderOptions(c.provider);
   $("#aiProvider").value=c.provider;
-  $("#aiBaseUrl").value=c.baseUrl||"";
+  $("#aiBaseUrl").value=c.baseUrl||p.baseUrl||"";
   $("#aiApiKey").value=c.apiKey||"";
   renderAIModels();
   const builtIn=providerModels(c.provider,c);
@@ -132,9 +171,9 @@ function renderAI(md){const lines=String(md??"").replace(/\r/g,"").split("\n"),b
 function renderAIQuickSelectors(){
   const c=aiConfig(),ps=$("#aiQuickProvider"),ms=$("#aiQuickModel");
   if(!ps||!ms)return;
-  const providerIds=Object.keys(AI_PROVIDERS);
+  const providerIds=Object.keys(allAIProviders());
   const provider=providerIds.includes(c.provider)?c.provider:"pollinations";
-  ps.innerHTML=providerIds.map(id=>"<option value=\""+esc(id)+"\">"+esc(AI_PROVIDERS[id].name)+"</option>").join("");
+  ps.innerHTML=providerIds.map(id=>"<option value=\""+esc(id)+"\">"+esc(allAIProviders()[id].name)+"</option>").join("");
   ps.value=provider;
   const models=providerModels(provider,c);
   ms.innerHTML=models.map(m=>"<option value=\""+esc(m.id)+"\">"+esc(m.name)+"</option>").join("");
@@ -177,13 +216,14 @@ $("#next").onclick=moveNext;$("#bookmarkBtn").onclick=toggleBookmark;document.qu
   renderAIQuickSelectors();
 };
 $("#aiQuickModel").onchange=()=>saveQuickAI();
-$("#originalBtn").onclick=showOriginalSolution;$("#closeOriginal").onclick=()=>$("#originalModal").hidden=true;$("#aiBtn").onclick=showAISolution;$("#themeBtn").onclick=()=>{document.body.classList.toggle("light");localStorage.setItem("egk_theme",document.body.classList.contains("light")?"light":"dark")};$("#aiSettingsBtn").onclick=()=>{$("#aiModal").hidden=false;setAIFields()};$("#closeAi").onclick=()=>$("#aiModal").hidden=true;$("#aiProvider").onchange=()=>{
+$("#originalBtn").onclick=showOriginalSolution;$("#closeOriginal").onclick=()=>$("#originalModal").hidden=true;$("#aiBtn").onclick=showAISolution;$("#themeBtn").onclick=()=>{document.body.classList.toggle("light");localStorage.setItem("egk_theme",document.body.classList.contains("light")?"light":"dark")};$("#aiSettingsBtn").onclick=()=>{$("#aiModal").hidden=false;setAIFields()};$("#addCustomProvider").onclick=addCustomProvider;$("#deleteCustomProvider").onclick=()=>{const id=$("#aiProvider").value;if(!isCustomProvider(id))return;if(confirm("Delete this custom provider and its saved API key?")){deleteCustomProvider(id);renderAIProviderOptions("pollinations");activateAIProvider("pollinations");setAIFields();renderAIQuickSelectors()}};$("#closeAi").onclick=()=>$("#aiModal").hidden=true;$("#aiProvider").onchange=()=>{
   const provider=$("#aiProvider").value;
   const c=activateAIProvider(provider);
+  const p=allAIProviders()[provider]||AI_PROVIDERS.custom;
   $("#aiBaseUrl").value=c.baseUrl||"";
   $("#aiApiKey").value=c.apiKey||"";
   renderAIModels();
   $("#aiModelCustom").value="";
   $("#aiModelCustom").hidden=$("#aiModel").value!=="__custom__";
   $("#aiStatus").textContent="";
-};$("#aiModel").onchange=()=>{$("#aiModelCustom").hidden=$("#aiModel").value!=="__custom__"};restoreNativeAIConfig();renderAIQuickSelectors();$("#saveAi").onclick=()=>{const provider=$("#aiProvider").value,model=$("#aiModel").value==="__custom__"?$("#aiModelCustom").value.trim():$("#aiModel").value,old=aiConfig(),cache=aiModelCache(old),available=providerModels(provider,old);persistAIConfig({...old,provider,baseUrl:$("#aiBaseUrl").value.trim(),apiKey:$("#aiApiKey").value.trim(),model,models:available.map(m=>m.id),modelCache:cache});$("#aiModal").hidden=true;renderAIQuickSelectors()};$("#testAi").onclick=async()=>{const provider=$("#aiProvider").value,model=$("#aiModel").value==="__custom__"?$("#aiModelCustom").value.trim():$("#aiModel").value,old=aiConfig(),cache=aiModelCache(old),available=providerModels(provider,old);persistAIConfig({...old,provider,baseUrl:$("#aiBaseUrl").value.trim(),apiKey:$("#aiApiKey").value.trim(),model,models:available.map(m=>m.id),modelCache:cache});renderAIQuickSelectors();await testAIConnection()};$("#loadModels").onclick=loadAIModels;$("#resetAi").onclick=()=>{persistAIConfig({provider:"pollinations",baseUrl:"https://gen.pollinations.ai/v1",apiKey:"",model:"kimi"});setAIFields()};if(localStorage.getItem("egk_theme")==="light")document.body.classList.add("light");setupSwipe();renderAIQuickSelectors();window.addEventListener("pageshow",()=>{let savedTopic=localStorage.getItem(ACTIVEKEY)||"all";if(savedTopic==="exam"){const s=progressStore();delete s.exam;localStorage.setItem(KEY,JSON.stringify(s));localStorage.removeItem(ACTIVEKEY);savedTopic="all"}state.topic=savedTopic;const s=progressStore();if(["all","mistakes"].includes(state.topic)&&s[state.topic]?.pool?.length&&document.querySelector("#test")&&!document.querySelector("#test").classList.contains("active")){if(restoreSavedState()){show("test");clearInterval(state.timer);renderQ();startTimer()}}});load();
+};$("#aiModel").onchange=()=>{$("#aiModelCustom").hidden=$("#aiModel").value!=="__custom__"};restoreNativeAIConfig();renderAIQuickSelectors();$("#saveAi").onclick=()=>{const provider=$("#aiProvider").value,model=$("#aiModel").value==="__custom__"?$("#aiModelCustom").value.trim():$("#aiModel").value,old=aiConfig(),cache=aiModelCache(old),available=providerModels(provider,old);if(isCustomProvider(provider))saveCustomProvider(provider,{name:allAIProviders()[provider]?.name||provider,baseUrl:$("#aiBaseUrl").value.trim(),models:available});persistAIConfig({...old,provider,baseUrl:$("#aiBaseUrl").value.trim(),apiKey:$("#aiApiKey").value.trim(),model,models:available.map(m=>m.id),modelCache:cache});$("#aiModal").hidden=true;renderAIQuickSelectors()};$("#testAi").onclick=async()=>{const provider=$("#aiProvider").value,model=$("#aiModel").value==="__custom__"?$("#aiModelCustom").value.trim():$("#aiModel").value,old=aiConfig(),cache=aiModelCache(old),available=providerModels(provider,old);persistAIConfig({...old,provider,baseUrl:$("#aiBaseUrl").value.trim(),apiKey:$("#aiApiKey").value.trim(),model,models:available.map(m=>m.id),modelCache:cache});renderAIQuickSelectors();await testAIConnection()};$("#loadModels").onclick=loadAIModels;$("#resetAi").onclick=()=>{persistAIConfig({provider:"pollinations",baseUrl:"https://gen.pollinations.ai/v1",apiKey:"",model:"kimi"});setAIFields()};if(localStorage.getItem("egk_theme")==="light")document.body.classList.add("light");setupSwipe();renderAIQuickSelectors();window.addEventListener("pageshow",()=>{let savedTopic=localStorage.getItem(ACTIVEKEY)||"all";if(savedTopic==="exam"){const s=progressStore();delete s.exam;localStorage.setItem(KEY,JSON.stringify(s));localStorage.removeItem(ACTIVEKEY);savedTopic="all"}state.topic=savedTopic;const s=progressStore();if(["all","mistakes"].includes(state.topic)&&s[state.topic]?.pool?.length&&document.querySelector("#test")&&!document.querySelector("#test").classList.contains("active")){if(restoreSavedState()){show("test");clearInterval(state.timer);renderQ();startTimer()}}});load();
