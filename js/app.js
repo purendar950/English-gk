@@ -40,12 +40,12 @@ function renderAI(md){const lines=String(md??"").replace(/\r/g,"").split("\n"),b
 function renderAIQuickSelectors(){
   const c=aiConfig(), ps=$("#aiQuickProvider"), ms=$("#aiQuickModel");
   if(!ps||!ms)return;
-  ps.innerHTML=Object.entries(AI_PROVIDERS).map(([id,p])=>"<option value=\""+esc(id)+"\">"+esc(p.name)+"</option>").join("");
+  ps.innerHTML=Object.entries(AI_PROVIDERS).filter(([id])=>id!=="custom").map(([id,p])=>"<option value=\""+esc(id)+"\">"+esc(p.name)+"</option>").join("");
   ps.value=c.provider||"pollinations";
   const p=AI_PROVIDERS[ps.value]||AI_PROVIDERS.custom;
-  const models=c.models?.length&&c.provider===ps.value?c.models:(p.models||[]);
-  ms.innerHTML=models.map(m=>"<option value=\""+esc(m)+"\">"+esc(m)+"</option>").join("")+"<option value=\"__custom__\">Custom model…</option>";
-  if(c.model&&models.includes(c.model))ms.value=c.model;else if(c.model)ms.value="__custom__";else ms.value=models[0]||"__custom__";
+  const models=p.models||[];
+  ms.innerHTML=models.map(m=>"<option value=\""+esc(m)+"\">"+esc(m)+"</option>").join("");
+  ms.value=(c.provider===ps.value&&models.includes(c.model))?c.model:(models[0]||"");
   if(ms.value==="__custom__"){
     ms.insertAdjacentHTML("afterend","");
   }
@@ -60,8 +60,8 @@ function saveQuickAI(){
     model=old.provider===provider?old.model:"";
   }
   const old=aiConfig();
-  const base=old.provider===provider&&old.baseUrl?old.baseUrl:p.baseUrl;
-  localStorage.setItem(AIKEY,JSON.stringify({...old,provider,baseUrl:base,model,models:old.provider===provider?old.models:(p.models||[])}));
+  const base=p.baseUrl;
+  localStorage.setItem(AIKEY,JSON.stringify({...old,provider,baseUrl:base,model,models:p.models||[]}));
 }
 function syncAIQuickFromSettings(){
   renderAIQuickSelectors();
