@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "question": "Choose the synonym of 'Benevolent'.",
+    "options": [
+      "Cruel",
+      "Kind",
+      "Lazy",
+      "Stubborn"
+    ],
+    "answer": 1,
+    "explanation": "Benevolent means well-meaning and kindly."
+  },
+  {
+    "question": "Choose the synonym of 'Candid'.",
+    "options": [
+      "Frank",
+      "Secretive",
+      "Rude",
+      "Doubtful"
+    ],
+    "answer": 0,
+    "explanation": "Candid means truthful and straightforward."
+  },
+  {
+    "question": "Choose the synonym of 'Diligent'.",
+    "options": [
+      "Hardworking",
+      "Careless",
+      "Noisy",
+      "Uncertain"
+    ],
+    "answer": 0,
+    "explanation": "Diligent means showing careful and persistent effort."
+  },
+  {
+    "question": "Choose the synonym of 'Eloquent'.",
+    "options": [
+      "Fluent",
+      "Silent",
+      "Confused",
+      "Brief"
+    ],
+    "answer": 0,
+    "explanation": "Eloquent means fluent or persuasive in speaking or writing."
+  }
+]
