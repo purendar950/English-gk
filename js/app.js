@@ -53,14 +53,20 @@ function saveQuickAI(){
   const ps=$("#aiQuickProvider"),ms=$("#aiQuickModel");
   if(!ps||!ms)return;
   const provider=ps.value,p=AI_PROVIDERS[provider]||AI_PROVIDERS.custom;
-  let model=ms.value;
-  if(model==="__custom__"){
-    const old=aiConfig();
-    model=old.provider===provider?old.model:"";
-  }
   const old=aiConfig();
-  const base=p.baseUrl;
-  localStorage.setItem(AIKEY,JSON.stringify({...old,provider,baseUrl:base,model,models:p.models||[]}));
+  let model=ms.value;
+  if(model==="__custom__")model=old.provider===provider?old.model:"";
+  const cache=aiModelCache(old);
+  const available=Array.isArray(cache[provider])&&cache[provider].length?cache[provider]:(Array.isArray(p.models)?p.models:[]);
+  const next={
+    ...old,
+    provider,
+    baseUrl:p.baseUrl||old.baseUrl||"",
+    model,
+    models:available,
+    modelCache:cache
+  };
+  localStorage.setItem(AIKEY,JSON.stringify(next));
 }
 function syncAIQuickFromSettings(){
   renderAIQuickSelectors();
