@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "question": "Choose the correctly punctuated sentence.",
+    "options": [
+      "What a beautiful day!",
+      "What a beautiful day.",
+      "What, a beautiful day?",
+      "What a beautiful day?"
+    ],
+    "answer": 0,
+    "explanation": "An exclamatory sentence takes an exclamation mark."
+  },
+  {
+    "question": "Choose the correct plural of 'criterion'.",
+    "options": [
+      "Criterions",
+      "Criteria",
+      "Criteriones",
+      "Criterias"
+    ],
+    "answer": 1,
+    "explanation": "The classical plural of criterion is criteria."
+  },
+  {
+    "question": "Choose the correct question tag: 'He is honest, ___?'",
+    "options": [
+      "isn't he",
+      "is he",
+      "doesn't he",
+      "wasn't he"
+    ],
+    "answer": 0,
+    "explanation": "A positive statement with 'is' takes the negative tag 'isn't he?'."
+  },
+  {
+    "question": "Choose the correctly used word.",
+    "options": [
+      "He accepted my advice.",
+      "He excepted my advice.",
+      "He accept my advise.",
+      "He except my advise."
+    ],
+    "answer": 0,
+    "explanation": "'Accepted' is the verb; 'advice' is the noun."
+  }
+]
