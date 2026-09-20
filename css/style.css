@@ -25,3 +25,8 @@ body.light .topic,.body.light .topic b{color:#162033!important}body.light .topic
 /* Prevent mobile browser text auto-sizing from enlarging question text */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}.questionCard,.questionCard h2,.questionCard .option{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media(max-width:650px){.questionCard h2{font-size:22px!important;line-height:1.45!important;font-weight:700!important;letter-spacing:0!important}.questionCard .option{font-size:16px!important;line-height:1.4!important}}
+
+/* Final quiz readability guard */
+#question,#question *{color:#eef5ff!important;font-size:inherit!important;line-height:inherit!important;font-weight:700!important;text-shadow:none!important}
+#question{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif!important;display:block;visibility:visible!important;opacity:1!important}
+@media(max-width:650px){#question{font-size:22px!important;line-height:1.45!important;min-height:0!important}.questionCard{overflow:visible!important}.questionCard .option{color:#eef5ff!important}}
