@@ -41,32 +41,30 @@ function renderAIQuickSelectors(){
   const c=aiConfig(),ps=$("#aiQuickProvider"),ms=$("#aiQuickModel");
   if(!ps||!ms)return;
   const providerIds=Object.keys(AI_PROVIDERS);
-  ps.innerHTML=providerIds.map(id=>"<option value=\""+esc(id)+"\">"+esc(AI_PROVIDERS[id].name)+"</option>").join("");
   const provider=providerIds.includes(c.provider)?c.provider:"pollinations";
+  ps.innerHTML=providerIds.map(id=>"<option value=\""+esc(id)+"\">"+esc(AI_PROVIDERS[id].name)+"</option>").join("");
   ps.value=provider;
   const models=providerModels(provider,c);
-  ms.innerHTML=models.map(m=>"<option value=\""+esc(m)+"\">"+esc(m)+"</option>").join("");
-  if(c.model&&models.includes(c.model))ms.value=c.model;
-  else ms.value=models[0]||"";
+  ms.innerHTML=models.map(m=>"<option value=\""+esc(m.id)+"\">"+esc(m.name)+"</option>").join("");
+  if(c.model&&models.some(m=>m.id===c.model))ms.value=c.model;
+  else ms.value=models[0]?.id||"";
 }
 function saveQuickAI(){
   const ps=$("#aiQuickProvider"),ms=$("#aiQuickModel");
   if(!ps||!ms)return;
   const provider=ps.value,p=AI_PROVIDERS[provider]||AI_PROVIDERS.custom;
   const old=aiConfig();
-  let model=ms.value;
-  if(model==="__custom__")model=old.provider===provider?old.model:"";
+  const model=ms.value;
   const cache=aiModelCache(old);
-  const available=Array.isArray(cache[provider])&&cache[provider].length?cache[provider]:(Array.isArray(p.models)?p.models:[]);
-  const next={
+  const available=providerModels(provider,old);
+  localStorage.setItem(AIKEY,JSON.stringify({
     ...old,
     provider,
     baseUrl:p.baseUrl||old.baseUrl||"",
     model,
-    models:available,
+    models:available.map(m=>m.id),
     modelCache:cache
-  };
-  localStorage.setItem(AIKEY,JSON.stringify(next));
+  }));
 }
 function syncAIQuickFromSettings(){
   renderAIQuickSelectors();
@@ -77,7 +75,11 @@ $("#next").onclick=moveNext;$("#bookmarkBtn").onclick=toggleBookmark;document.qu
   const p=AI_PROVIDERS[provider]||AI_PROVIDERS.pollinations;
   const c=aiConfig();
   const models=providerModels(provider,c);
-  localStorage.setItem(AIKEY,JSON.stringify({...c,provider,baseUrl:p.baseUrl,model:models[0]||"",models}));
+  const model=models[0]?.id||"";
+  localStorage.setItem(AIKEY,JSON.stringify({
+    ...c,provider,baseUrl:p.baseUrl||c.baseUrl||"",model,
+    models:models.map(m=>m.id),modelCache:aiModelCache(c)
+  }));
   renderAIQuickSelectors();
 };
 $("#aiQuickModel").onchange=()=>saveQuickAI();
