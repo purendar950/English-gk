@@ -1,42 +1,47 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>English GK — SSC Practice</title>
-  <style>
-    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b18}
-    #app{display:block;width:100%;height:100%;border:0;background:#080b18}
-    #fallback{position:fixed;inset:auto 12px 12px 12px;z-index:5;text-align:center;font:14px system-ui;color:#fff;opacity:.8;pointer-events:none}
-    #fallback a{color:#9ca7ff;pointer-events:auto}
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>English GK • SSC Practice</title>
+<link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-  <iframe id="app" title="English GK SSC Practice" src="./SSC_2025_ENGLISH_CHAPTERWISE%20(3).html"></iframe>
-  <div id="fallback">If the app does not load, <a href="./SSC_2025_ENGLISH_CHAPTERWISE%20(3).html">open it directly</a>.</div>
-  <script>
-    const frame=document.getElementById('app');
-    frame.addEventListener('load',()=>{
-      const doc=frame.contentDocument;
-      if(!doc)return;
-      const scripts=[
-        './ai-cors-fix.js?v=20260917-1900',
-        './english-gk-pro-enhancements.js?v=20260917-1900'
-      ];
-      let i=0;
-      const next=()=>{
-        if(i>=scripts.length)return;
-        const src=scripts[i++];
-        const name=src.split('?')[0].split('/').pop();
-        if(doc.querySelector('script[src*="'+name+'"]')){next();return;}
-        const s=doc.createElement('script');
-        s.src=src;
-        s.onload=next;
-        s.onerror=next;
-        doc.body.appendChild(s);
-      };
-      next();
-    });
-  </script>
+<div id="app">
+<header class="topbar">
+  <div><div class="brand">English <span>GK</span></div><div class="sub">SSC English Practice</div></div>
+  <button id="themeBtn" class="iconBtn">☾</button>
+</header>
+<main>
+<section id="home" class="screen active">
+  <div class="hero">
+    <div><span class="eyebrow">SSC • CGL • CHSL • One Day Exams</span>
+    <h1>Build your English score.</h1>
+    <p>Choose a topic, start a test, review mistakes and track your progress.</p></div>
+    <button id="startAll" class="primary">Start Test →</button>
+  </div>
+  <div class="stats">
+    <div><b id="totalQ">0</b><span>Questions loaded</span></div>
+    <div><b id="attempted">0</b><span>Attempted</span></div>
+    <div><b id="accuracy">0%</b><span>Accuracy</span></div>
+  </div>
+  <h2>All Topics</h2>
+  <div id="topics" class="grid"></div>
+</section>
+<section id="test" class="screen">
+  <div class="testHead"><button id="backHome" class="ghost">← Topics</button><span id="counter">Question 1</span><span id="timer">00:00</span></div>
+  <div class="progress"><i id="progressBar"></i></div>
+  <article class="questionCard">
+    <div class="topicLabel" id="qTopic"></div><h2 id="question"></h2><div id="options"></div>
+    <div id="feedback" class="feedback"></div>
+  </article>
+  <div class="actions"><button id="skip" class="ghost">Skip</button><button id="next" class="primary">Next →</button></div>
+</section>
+<section id="result" class="screen">
+  <div class="resultCard"><div class="eyebrow">TEST COMPLETE</div><h1 id="score">0</h1><p id="resultMeta"></p><div id="review" class="review"></div><button id="again" class="primary">Start Another Test</button></div>
+</section>
+</main>
+</div>
+<script src="./js/app.js"></script>
 </body>
 </html>
