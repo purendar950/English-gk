@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "question": "Identify the part containing the error: 'He do not know the answer.'",
+    "options": [
+      "He",
+      "do not know",
+      "the answer",
+      "No error"
+    ],
+    "answer": 1,
+    "explanation": "With singular subject 'He', use 'does not', not 'do not'."
+  },
+  {
+    "question": "Identify the part containing the error: 'She is senior than me.'",
+    "options": [
+      "She is",
+      "senior than",
+      "me",
+      "No error"
+    ],
+    "answer": 1,
+    "explanation": "The standard construction is 'senior to', not 'senior than'."
+  },
+  {
+    "question": "Identify the part containing the error: 'Each of the boys have a book.'",
+    "options": [
+      "Each of",
+      "the boys",
+      "have a book",
+      "No error"
+    ],
+    "answer": 2,
+    "explanation": "'Each' is singular, so use 'has a book'."
+  },
+  {
+    "question": "Identify the part containing the error: 'I have seen him yesterday.'",
+    "options": [
+      "I have seen",
+      "him",
+      "yesterday",
+      "No error"
+    ],
+    "answer": 0,
+    "explanation": "A definite past time normally takes simple past: 'I saw him yesterday.'"
+  }
+]
