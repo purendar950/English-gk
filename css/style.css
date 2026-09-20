@@ -28,3 +28,21 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}.questionCard,.question
   .aiQuick .aiBtn{flex:1 1 100%}
   .aiQuick select{flex:1 1 0;max-width:none;min-width:0}
 }
+
+/* v26: AI quick provider/model selectors beside AI Solution */
+.solutionActions{display:grid!important;grid-template-columns:1fr 2fr!important;align-items:stretch!important}
+.aiQuick{display:grid!important;grid-template-columns:auto minmax(130px,1fr) minmax(150px,1.2fr)!important;align-items:center!important;gap:8px!important;width:100%!important}
+.aiQuick .aiBtn{width:100%!important;height:38px!important;margin:0!important}
+.aiSelectGroup{display:flex!important;align-items:center!important;gap:5px!important;min-width:0!important}
+.aiSelectGroup>span{font-size:9px!important;font-weight:900!important;text-transform:uppercase!important;letter-spacing:.05em!important;color:#8fa8c7!important}
+.aiSelectGroup select{width:100%!important;height:38px!important;min-width:0!important;max-width:none!important;border:1px solid #31516f!important;border-radius:9px!important;background:#13263e!important;color:#e6f1ff!important;padding:0 9px!important;font-size:11px!important;font-weight:800!important;outline:none!important}
+.aiSelectGroup select:focus{border-color:#28c8ff!important;box-shadow:0 0 0 2px #28c8ff22!important}
+@media(max-width:850px){
+  .solutionActions{grid-template-columns:1fr!important}
+  .aiQuick{grid-template-columns:1fr 1fr!important}
+  .aiQuick .aiBtn{grid-column:1/-1}
+}
+@media(max-width:520px){
+  .aiQuick{grid-template-columns:1fr!important}
+  .aiSelectGroup{width:100%!important}
+}
