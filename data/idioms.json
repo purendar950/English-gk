@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "question": "'A blessing in disguise' means:",
+    "options": [
+      "A hidden benefit",
+      "A public reward",
+      "A false promise",
+      "A serious danger"
+    ],
+    "answer": 0,
+    "explanation": "It refers to something that seems bad initially but turns out beneficial."
+  },
+  {
+    "question": "'Break the ice' means:",
+    "options": [
+      "End a friendship",
+      "Start a conversation",
+      "Create a problem",
+      "Refuse to speak"
+    ],
+    "answer": 1,
+    "explanation": "To break the ice is to make people feel more comfortable and start interaction."
+  },
+  {
+    "question": "'Hit the nail on the head' means:",
+    "options": [
+      "Miss the point",
+      "Say exactly the right thing",
+      "Work very slowly",
+      "Cause damage"
+    ],
+    "answer": 1,
+    "explanation": "It means to describe or identify something exactly."
+  },
+  {
+    "question": "'Once in a blue moon' means:",
+    "options": [
+      "Very frequently",
+      "At night",
+      "Very rarely",
+      "Unexpectedly"
+    ],
+    "answer": 2,
+    "explanation": "It means something that happens very rarely."
+  }
+]
