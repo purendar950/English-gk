@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "question": "One who can use both hands equally well is called:",
+    "options": [
+      "Ambidextrous",
+      "Ambiguous",
+      "Amateur",
+      "Anonymous"
+    ],
+    "answer": 0,
+    "explanation": "Ambidextrous means able to use both hands equally well."
+  },
+  {
+    "question": "A person who hates mankind is a:",
+    "options": [
+      "Philanthropist",
+      "Misanthrope",
+      "Optimist",
+      "Patriot"
+    ],
+    "answer": 1,
+    "explanation": "Misanthrope means a person who dislikes or distrusts humankind."
+  },
+  {
+    "question": "A speech delivered without preparation is:",
+    "options": [
+      "Extempore",
+      "Epitaph",
+      "Prologue",
+      "Dialogue"
+    ],
+    "answer": 0,
+    "explanation": "Extempore means spoken or done without preparation."
+  },
+  {
+    "question": "A place where books are kept for reading or borrowing is a:",
+    "options": [
+      "Laboratory",
+      "Library",
+      "Museum",
+      "Gallery"
+    ],
+    "answer": 1,
+    "explanation": "A library is a collection/place for books and other reading material."
+  }
+]
