@@ -43,8 +43,26 @@ function restoreNativeAIConfig(){
     persistAIConfig(merged);
   }catch(e){console.warn("Native AI config restore failed",e)}
 }
+function aiProviderStore(){
+  try{return JSON.parse(localStorage.getItem("english_gk_ai_providers_v1")||"{}")}catch{return{}}
+}
+function saveProviderConfig(provider,config){
+  try{
+    const all=aiProviderStore();
+    all[provider]={...config,provider};
+    localStorage.setItem("english_gk_ai_providers_v1",JSON.stringify(all));
+  }catch(e){}
+}
+function providerSavedConfig(provider){
+  const all=aiProviderStore();
+  return all[provider]&&typeof all[provider]==="object"?all[provider]:null;
+}
 function persistAIConfig(config){
-  try{localStorage.setItem(AIKEY,JSON.stringify(config))}catch(e){}
+  try{
+    const next={...config};
+    if(next.provider)saveProviderConfig(next.provider,next);
+    localStorage.setItem(AIKEY,JSON.stringify(next));
+  }catch(e){}
   try{if(typeof Android!=="undefined"&&Android.saveAIConfig)Android.saveAIConfig(JSON.stringify(config))}catch(e){console.warn("Native AI config save failed",e)}
 }
 function aiModelCache(c){return c.modelCache&&typeof c.modelCache==="object"?c.modelCache:{}}function normalizeModelList(list){return (Array.isArray(list)?list:[]).map(x=>{if(typeof x==="string")return{id:x,name:x};if(!x||typeof x!=="object")return null;const id=String(x.id||x.model||x.name||"").trim();if(!id)return null;const name=String(x.name||x.display_name||x.displayName||id).trim();return{id,name}}).filter(Boolean).filter((x,i,a)=>a.findIndex(y=>y.id===x.id)===i)}function providerModels(provider,c){const p=AI_PROVIDERS[provider]||AI_PROVIDERS.custom;const cache=aiModelCache(c)[provider];const list=normalizeModelList(cache);return list.length?list:normalizeModelList(p.models)}function renderAIModels(){const c=aiConfig(),p=c.provider,m=$("#aiModel");if(!m)return;const list=providerModels(p,c);m.innerHTML=list.map(x=>"<option value=\""+esc(x.id)+"\">"+esc(x.name)+"</option>").join("");m.insertAdjacentHTML("beforeend","<option value=\"__custom__\">Custom model…</option>");if(c.model&&list.some(x=>x.id===c.model))m.value=c.model;else if(c.model)m.value="__custom__";else m.value=list[0]?.id||""}function setAIFields(){const c=aiConfig();$("#aiProvider").value=c.provider;$("#aiBaseUrl").value=c.baseUrl;$("#aiApiKey").value=c.apiKey;renderAIModels();const builtIn=providerModels(c.provider,c);$("#aiModelCustom").value=c.model&&!builtIn.some(x=>x.id===c.model)?c.model:"";$("#aiModelCustom").hidden=$("#aiModel").value!=="__custom__";$("#aiStatus").textContent=""}async function loadAIModels(){const c=aiConfig(),base=(c.baseUrl||"").replace(/\/$/,"");if(!base){renderAIModels();return}const headers={};if(c.apiKey)headers.Authorization="Bearer "+c.apiKey;try{const r=await fetch(base+"/models",{headers,cache:"no-store"});if(!r.ok)throw Error("HTTP "+r.status);const d=await r.json();const raw=Array.isArray(d.data)?d.data:(Array.isArray(d.models)?d.models:Array.isArray(d)?d:[]);const ids=normalizeModelList(raw);if(!ids.length)throw Error("No models returned");const cache={...aiModelCache(c),[c.provider]:ids};const selected=ids.some(x=>x.id===c.model)?c.model:ids[0].id;persistAIConfig({...c,modelCache:cache,models:ids.map(x=>x.id),model:selected});setAIFields();renderAIQuickSelectors();$("#aiStatus").textContent="✓ "+ids.length+" models loaded";$("#aiStatus").className="aiStatus ok"}catch(e){$("#aiStatus").textContent="Model list unavailable: "+e.message;$("#aiStatus").className="aiStatus warn";renderAIModels()}}async function testAIConnection(){const c=aiConfig(),base=(c.baseUrl||"").replace(/\/$/,""),model=c.model==="__custom__"?$("#aiModelCustom").value.trim():c.model;const status=$("#aiStatus");status.className="aiStatus testing";status.textContent="Testing connection…";if(!base){status.textContent="✕ Base URL is required";status.className="aiStatus bad";return}const headers={"Content-Type":"application/json"};if(c.apiKey)headers.Authorization="Bearer "+c.apiKey;try{const r=await fetch(base+"/chat/completions",{method:"POST",headers,body:JSON.stringify({model,messages:[{role:"user",content:"Reply with exactly: CONNECTION_OK"}],temperature:0,max_tokens:20}),cache:"no-store"});const d=await r.json().catch(()=>({}));if(!r.ok)throw Error((d.error&&d.error.message)||"HTTP "+r.status);const out=d.choices?.[0]?.message?.content||d.choices?.[0]?.text||"";status.textContent="✓ Connection working"+(out?" • "+strip(out).slice(0,50):"");status.className="aiStatus ok"}catch(e){status.textContent="✕ Connection failed: "+e.message+" (If this is a browser CORS error, use a CORS-enabled endpoint/proxy.)";status.className="aiStatus bad"}}
@@ -130,11 +148,13 @@ async function showAISolution(forceRegenerate=false){saveQuickAI();const q=state
 $("#next").onclick=moveNext;$("#bookmarkBtn").onclick=toggleBookmark;document.querySelectorAll("#resultFilters button").forEach(x=>x.onclick=()=>{state.resultFilter=x.dataset.filter;renderResults()});const mistakePracticeBtn=$("#mistakePracticeBtn");if(mistakePracticeBtn)mistakePracticeBtn.onclick=startMistakes;$("#resultMistakes").onclick=startMistakes;$("#skip").onclick=moveNext;const swipe={x:0,y:0,active:false};function setupSwipe(){const area=$("#test");if(!area)return;area.addEventListener("touchstart",e=>{if(e.touches.length!==1)return;const t=e.touches[0];swipe.x=t.clientX;swipe.y=t.clientY;swipe.active=true},{passive:true});area.addEventListener("touchend",e=>{if(!swipe.active||!e.changedTouches.length)return;const t=e.changedTouches[0],dx=t.clientX-swipe.x,dy=t.clientY-swipe.y;swipe.active=false;if(Math.abs(dx)<60||Math.abs(dx)<=Math.abs(dy)*1.25)return;if(e.target.closest("button,input,select,textarea,a,.modal"))return;if(dx<0)moveNext();else movePrev()},{passive:true})} $("#startAll").onclick=()=>localStorage.getItem(KEY)?start("all",true):start("all",false);$("#navMistakes").onclick=startMistakes;$("#navBookmarks").onclick=()=>{state.resultFilter="bookmarked";renderResults();show("result")};$("#navResults").onclick=()=>{renderResults();show("result")};document.querySelector("[data-home]").onclick=()=>show("home");$("#resumeBtn").onclick=()=>start("all",true);$("#newTestBtn").onclick=()=>{clearProgress("all");start("all",false)};$("#backHome").onclick=()=>{saveProgress();clearInterval(state.timer);show("home")};$("#again").onclick=()=>{clearProgress("all");start("all",false)};function sanitizeOriginalHTML(raw){const tpl=document.createElement("template");tpl.innerHTML=String(raw??"");const allowed=new Set(["BR","B","STRONG","I","EM","U","P","DIV","UL","OL","LI","H1","H2","H3","H4","TABLE","THEAD","TBODY","TFOOT","TR","TH","TD"]);const clean=node=>{for(const child of [...node.childNodes]){if(child.nodeType===1){if(!allowed.has(child.tagName)){if(child.tagName==="SPAN"||child.tagName==="FONT"){while(child.firstChild)child.parentNode.insertBefore(child.firstChild,child);child.remove();continue}const text=document.createTextNode(child.textContent||"");child.replaceWith(text);continue}for(const a of [...child.attributes])child.removeAttribute(a.name);clean(child)}else if(child.nodeType===8){child.remove()}}};clean(tpl.content);return tpl.innerHTML.trim()}function showOriginalSolution(){const q=state.pool[state.index],raw=String(q.explanation??q.s??"").trim();if(raw){const html=sanitizeOriginalHTML(raw);$("#originalSolution").innerHTML=html||'<div class="originalEmpty">No readable original solution/explanation is available in this question file.</div>'}else{$("#originalSolution").innerHTML="<div class=\"originalEmpty\">No original solution/explanation is available in this question file.</div>"}$("#originalModal").hidden=false}$("#aiQuickProvider").onchange=()=>{
   const provider=$("#aiQuickProvider").value;
   const p=AI_PROVIDERS[provider]||AI_PROVIDERS.pollinations;
-  const c=aiConfig();
+  const previous=providerSavedConfig(provider);
+  const c=previous||aiConfig();
   const models=providerModels(provider,c);
-  const model=models[0]?.id||"";
+  const model=previous?.model&&models.some(m=>m.id===previous.model)?previous.model:(models[0]?.id||"");
   persistAIConfig({
     ...c,provider,baseUrl:p.baseUrl||c.baseUrl||"",model,
+    apiKey:c.apiKey||"",
     models:models.map(m=>m.id),modelCache:aiModelCache(c)
   });
   renderAIQuickSelectors();
